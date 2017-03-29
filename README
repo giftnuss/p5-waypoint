@@ -1,0 +1,31 @@
+NAME
+    Waypoint
+
+SYNOPSIS
+      {
+        local $Waypoint::ROOT = 'Kdom4';
+        use Waypoint
+          Start => {
+            player => sub { },
+            dungeon => sub { },
+            monster => sub { }
+          },
+          Trap => {
+            player => sub { }
+          },
+          Death => {
+            monster => sub { } 
+          }
+      }
+
+      # later in the app
+      $env = Kdom4::Start->environment();
+
+DESCRIPTION
+    This module is a pure infrastructure module which only helps with
+    organizing static methods in separate places. The methods don't need to
+    be static, but this is the intended purpose.
+
+  `import'
+    The default value for `$Waypoint::ROOT' is "Waypoint".
+
