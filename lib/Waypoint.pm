@@ -1,7 +1,7 @@
 package Waypoint;
 use strict; use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use Package::Subroutine;
 
@@ -10,9 +10,10 @@ our $ROOT = __PACKAGE__;
 sub import {
      my $package = shift;
      my @args = @_;
+     my $root = (@args % 2) ? shift(@args) : $ROOT;
 
      while(my ($point,$methods) = splice(@args,0,2)) {
-         my $pkg = join('::',$ROOT,$point);
+         my $pkg = join('::',$root,$point);
          while(my ($method,$coderef) = each(%$methods)) {
              Package::Subroutine->install($pkg,$method,$coderef);
          }
@@ -27,9 +28,9 @@ Waypoint
 
 =head1 SYNOPSIS
 
-  {
-    local $Waypoint::ROOT = 'Kdom4';
-    use Waypoint
+  package Kdom4;
+    
+  use Waypoint __PACKAGE__,
       Start => {
         player => sub { },
         dungeon => sub { },
@@ -54,5 +55,6 @@ to be static, but this is the intended purpose.
 
 =head2 C<import>
 
-The default value for C<$Waypoint::ROOT> is "Waypoint".
+The optional first argument is the namespace where the "waypoints" will
+be created. The default namespace is "Waypoint".
 
